@@ -18,6 +18,8 @@ import { PrivateRoute } from './PrivateRoute'
 import { login } from '../actions/auth'
 import UserRouter from './UserRouter'
 import { PublicRoute } from './PublicRoute'
+import AdminRouter from './AdminRouter'
+import { startLoadingCitas } from '../actions/citas'
 
 
 
@@ -35,6 +37,7 @@ export const AppRouter = () => {
             if (user?.uid) {
                 dispatch(login(user.uid, user.displayName));
                 setIsLoggedIn(true);
+                dispatch(startLoadingCitas());
             } else {
                 setIsLoggedIn(false);
             }
@@ -53,7 +56,7 @@ export const AppRouter = () => {
 
     return (
         <Router>
-            <Navbar authenticated={isLoggedIn}/>
+            <Navbar/>
             <Switch>
                 <Route
                     exact
@@ -69,6 +72,10 @@ export const AppRouter = () => {
                     isAuthenticated={ isLoggedIn }
                     path="/user"
                     component={UserRouter}
+                />
+                <Route
+                    path="/admin"
+                    component={AdminRouter}
                 />
 
                 <Redirect to="/" />

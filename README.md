@@ -1,68 +1,83 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Aplicacion web para la empresa Belleza Integral OXI
 
-## Available Scripts
+Aplicación web para la gestión de citas de una peluqueria, en este caso la de la empresa Belleza integral Oxi.
+en donde los clientes podran ver los servicios que se ofrecen en el lugar, asi como tambien informacion de interes,
+contando la aplicacion con un sistema de autenticación y permisos de usuario, para una mejor serguridad y funcionanmiento
+de la aplicación.
 
-In the project directory, you can run:
+## Comenzando 🚀
 
-### `yarn start`
+Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Mira **Deployment** para conocer como desplegar el proyecto.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
 
-### `yarn test`
+### Pre-requisitos 📋
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Este proyecto esta realizado con Firebase, por lo tanto es necesario conficurar sus propias credenciales de usuario.
+En el archivo firebase-config.js ubicado en la ruta src/firbase/firebase-config.js, editar lo siguiente: 
 
-### `yarn build`
+```
+const firebaseConfig = {
+    apiKey: "tus credenciales",
+    authDomain: "tus credenciales",
+    databaseURL: "tus credenciales",
+    projectId: "tus credenciales",
+    storageBucket: "tus credenciales",
+    messagingSenderId: "tus credenciales",
+    appId: "tus credenciales",
+    measurementId: "tus credenciales"
+};
+```
+Ademas de habilitar la Authentication con correo y contrseña en la consola de firebase, asi como tambien el metodo de 
+Iniciar sesión con google, y muy importante habilitar Firestore.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Tambien es necesario tener una version reciente de Node.js o Yarn, para poder ejecutar este proyecto.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+### Instalación 🔧
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Para instalar el proyecto con Node.js solo basta ejecutar:
 
-### `yarn eject`
+```
+npm install
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Esto instalara las dependencias necesarias para que nuestro proyecto funcione.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Y para ejecutar el proyecto, es necesario el comando:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+npm start o yarn start
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Despliegue 📦
 
-## Learn More
+Para generar el build de la aplicación es necesario usar e comando:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+npm build o yarn build
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Construido con 🛠️
 
-### Code Splitting
+* [React](https://es.reactjs.org/docs/getting-started.html) - El framework web usado
+* [Redux](https://firebase.google.com/) - Contenedor del estado de la aplicación
+* [Yarn](https://yarnpkg.com/getting-started) - Manejador de dependencias
+* [Firebase](https://firebase.google.com/) - Usado como Backend de la aplicación
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Autores ✒️
 
-### Analyzing the Bundle Size
+_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+* **Fabian Franco** - *Trabajo Inicial* - [Fabian Franco](https://github.com/franco762)
+* **Oscar Polo** - *Documentación* - [Oscar Polo](https://github.com/oscar-polo)
 
-### Making a Progressive Web App
+## Licencia 📄
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+Este proyecto está bajo la Licencia (GPL) - mira la web oficial de la licancia [GPL](https://www.gnu.org/licenses/licenses.es.html) para detalles
 
-### Advanced Configuration
+## Expresiones de Gratitud 🎁
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+* Gracias a Fernando Herrera por su curso de react que me ha ayudado en el proyecto📢
+* Gracias a Fazt por su tutoriales y videos que han sido de gran ayua en mi camino como desarrollador web📢
+* Gracias a los demas youtubers TheNetNinja, Bluuweb, Traversy Media, FreeCodeCamp, por compartir sus conocimientos🤓

@@ -89,12 +89,12 @@ export default function SignIn() {
                             >
                                 Iniciar Sesión 
                             </button>
-                            <button 
+                            <span
                                 className="btn btn-secondary btn-block"
                                 onClick={handleGoogleLogin}
                             >
                                 <i className="fab fa-google"></i> Iniciar con Google
-                            </button>
+                            </span>
                             <Link to="/auth/register">Crear una cuenta nueva</Link>
                         </form>
                     </div>
