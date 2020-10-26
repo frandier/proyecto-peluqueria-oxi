@@ -67,8 +67,6 @@ npm build o yarn build
 
 ## Autores ✒️
 
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
-
 * **Fabian Franco** - *Trabajo Inicial* - [Fabian Franco](https://github.com/franco762)
 * **Oscar Polo** - *Documentación* - [Oscar Polo](https://github.com/oscar-polo)
 
