@@ -52,7 +52,7 @@ npm start o yarn start
 
 ## Despliegue 📦
 
-Para generar el build de la aplicación es necesario usar e comando:
+Para generar el build de la aplicación es necesario usar el comando:
 
 ```
 npm build o yarn build
