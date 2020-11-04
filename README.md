@@ -52,7 +52,7 @@ npm start o yarn start
 
 ## Despliegue 📦
 
-Para generar el build de la aplicación es necesario usar e comando:
+Para generar el build de la aplicación es necesario usar el comando:
 
 ```
 npm build o yarn build
@@ -66,8 +66,6 @@ npm build o yarn build
 * [Firebase](https://firebase.google.com/) - Usado como Backend de la aplicación
 
 ## Autores ✒️
-
-_Menciona a todos aquellos que ayudaron a levantar el proyecto desde sus inicios_
 
 * **Fabian Franco** - *Trabajo Inicial* - [Fabian Franco](https://github.com/franco762)
 * **Oscar Polo** - *Documentación* - [Oscar Polo](https://github.com/oscar-polo)
