@@ -50,6 +50,9 @@ export default function Navbar() {
                                     <li className="nav-item">
                                         <Link to="/user/agendar" className="nav-link">Agendar</Link>
                                     </li>
+                                    {/* <li className="nav-item">
+                                        <Link to="/admin/citas" className="nav-link">Citas</Link>
+                                    </li> */}
                                     <li className="nav-item">
                                         <button 
                                             className="btn nav-link"

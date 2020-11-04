@@ -1,22 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import validator from 'validator';
 import { createNewCita } from '../../actions/citas';
 import { startLoadingEmpleados } from '../../actions/empleados';
 import { startLoadingServicios } from '../../actions/servicios';
-import { useForm } from '../../hooks/useForm'
+import { removeError, setError } from '../../actions/ui';
+import { useForm } from '../../hooks/useForm';
+import { consultarFecha, consultarEmpleado } from "../../helpers/citaDisponible";
+import Swal from "sweetalert2";
 
 export default function Agendar() {
 
     const dispatch = useDispatch();
 
-    const [formValues, handleInputChange] = useForm({
+    const {msgError} = useSelector(state => state.ui);
+
+    const [formValues, handleInputChange, reset] = useForm({
         servicio: "",
         empleado: "",
-        dia: "",
-        hora: "",
+        fecha: ""
     });
 
-    const {servicio, empleado, dia, hora} = formValues;  
+    const {servicio, empleado, fecha} = formValues;
 
     useEffect(() => {
         dispatch(startLoadingEmpleados())
@@ -27,61 +32,94 @@ export default function Agendar() {
     const {empleados} = useSelector(state => state.empleados);
     const {servicios} = useSelector(state => state.servicios);
 
-    const handleAgendar = (e) => {
+    const handleAgendar = async(e) => {
         e.preventDefault();
-        dispatch(createNewCita(servicio, empleado, dia, hora));
+        if (isFormValid()) {
+
+            const comprobarFecha = await consultarFecha(fecha);
+            const comprobarEmpleado = await consultarEmpleado(empleado);
+
+            if (comprobarFecha && comprobarEmpleado) {
+                Swal.fire('Empleado ocupado!', 'Por favor seleccione atra fecha o empleado', "error");
+            } else {
+                dispatch(createNewCita(servicio, empleado, fecha));
+                reset();
+            }
+        }
+    }
+
+    const isFormValid = () => {
+        if (validator.isEmpty(servicio)) {
+            dispatch(setError("Por favor elige un servicio"));
+            return false;
+        } else if (validator.isEmpty(empleado)) {
+            dispatch(setError("Por favor elige un empleado"));
+            return false;
+        } else if (validator.isEmpty(fecha)) {
+            dispatch(setError("Por favor elige una fecha"));
+            return false;
+        }
+        else if (validator.isBefore(fecha)) {
+            dispatch(setError("No puedes elegir una fecha que ya paso"));
+            return false;
+        }
+
+        dispatch(removeError());
+        return true;
     }
 
     return (
         <div className="row">
             <div className="col-md-4 mx-auto">
+                {
+                    msgError &&
+                    (
+                        <div className="mt-4 alert alert-danger" role="alert">
+                            {msgError}
+                        </div>
+                    )
+                }
                 <div className="card mt-4">
                     <div className="card-header textcenter">
                         <h4>Agendar Cita</h4>
                     </div>
                     <div className="card-body">
                         <form onSubmit={handleAgendar}>
-                            <div className="form-row">
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="nombre-servicio">Nombre del servicio</label>
-                                    <select className="form-control" value={servicio} onChange={handleInputChange} name="servicio">
-                                        <option value="">Seleccione</option>
-                                        {servicios.map(servicio => (
-                                            <option value={servicio.nombre} key={servicio.id}>{servicio.nombre}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="nombre-empleado">Nombre del empleado</label>
-                                    <select className="form-control" value={empleado} onChange={handleInputChange} name="empleado">
-                                        <option value="">Seleccione</option>
-                                        {empleados.map(empleado => (
-                                            <option value={empleado.nombre} key={empleado.id}>{empleado.nombre}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="dia">Dia</label>
-                                    <input className="form-control" value={dia} onChange={handleInputChange} type="date" name="dia"/>
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <label htmlFor="hora">Hora</label>
-                                    <input className="form-control" value={hora} onChange={handleInputChange} type="time" name="hora"/>
-                                </div>
+                            <div className="form-group">
+                                <label htmlFor="nombre-servicio">Nombre del servicio</label>
+                                <select className="form-control" value={servicio} onChange={handleInputChange} name="servicio">
+                                    <option value="">Seleccione</option>
+                                    {servicios.map(servicio => (
+                                        <option value={servicio.nombre} key={servicio.id}>{servicio.nombre}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="nombre-empleado">Nombre del empleado</label>
+                                <select className="form-control" value={empleado} onChange={handleInputChange} name="empleado">
+                                    <option value="">Seleccione</option>
+                                    {empleados.map(empleado => (
+                                        <option value={empleado.nombre} key={empleado.id}>{empleado.nombre}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="fecha">Fecha y Hora</label>
+                                <input className="form-control" value={fecha} onChange={handleInputChange} type="datetime-local" name="fecha"/>
+                            </div>
+                            <button type="submit" className="btn btn-primary btn-block">
+                                Agendar
+                            </button>
+                            {/* <div className="form-group col-md-6">
                                 <button type="submit" className="btn btn-primary btn-block">
                                     Agendar
                                 </button>
-                                {/* <div className="form-group col-md-6">
-                                    <button type="submit" className="btn btn-primary btn-block">
-                                        Agendar
-                                    </button>
-                                </div>
-                                <div className="form-group col-md-6">
-                                    <button type="reset" className="btn btn-danger btn-block">
-                                        Cancelar
-                                    </button>
-                                </div> */}
                             </div>
+                            <div className="form-group col-md-6">
+                                <button type="reset" className="btn btn-danger btn-block">
+                                    Cancelar
+                                </button>
+                            </div> */}
                         </form>
                     </div>
                 </div>

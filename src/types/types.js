@@ -17,6 +17,8 @@ export const types = {
     // Tipos para las cita
     citasAddNew: '[Cita] New cita',
     citasLoad: '[Cita] Load citas',
+    citasUpdated: '[Cita] Updated citas',
+    citasDelete: '[Cita] Delete cita',
 
     // Tipos para los empleados
     empleadosAddNew: '[Empleado] New empleado',

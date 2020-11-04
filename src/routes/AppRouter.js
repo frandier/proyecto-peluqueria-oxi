@@ -19,8 +19,6 @@ import { login } from '../actions/auth'
 import UserRouter from './UserRouter'
 import { PublicRoute } from './PublicRoute'
 import AdminRouter from './AdminRouter'
-import { startLoadingCitas } from '../actions/citas'
-
 
 
 export const AppRouter = () => {
@@ -35,9 +33,15 @@ export const AppRouter = () => {
         firebase.auth().onAuthStateChanged((user) => {
 
             if (user?.uid) {
+
+                user.getIdTokenResult().then(idTokenResult => {
+                    user.admin = idTokenResult.claims.admin;
+                    console.log(user);
+                });
+
+
                 dispatch(login(user.uid, user.displayName));
                 setIsLoggedIn(true);
-                dispatch(startLoadingCitas());
             } else {
                 setIsLoggedIn(false);
             }

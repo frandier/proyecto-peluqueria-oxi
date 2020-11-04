@@ -1,17 +1,21 @@
+import Swal from "sweetalert2";
 import { db } from "../firebase/firebase-config"
 import { loadServicios } from "../helpers/loadServicios";
 import { types } from "../types/types";
 
-export const createNewServicio = (nombre, area, precio) => {
+export const createNewServicio = (nombre, area, precio, url) => {
     return async(dispatch) => {
         
+        const imageUrl = url[0];
+
         const newServicio = {
             nombre,
             area,
-            precio
+            precio,
+            imageUrl,
         }
-
         await db.collection('servicios').add(newServicio); 
+        Swal.fire('Guardado', 'Se ha agregado un nuevo servicio', 'success');
     }
 }
 
