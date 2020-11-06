@@ -2,7 +2,7 @@ import { db } from "../firebase/firebase-config"
 
 
 export const loadCitas = async () => {
-    const citasSnap = await db.collection('citas').get();
+    const citasSnap = await db.collection('citas').orderBy('fecha').get();
     const citas = [];
     
     citasSnap.forEach(snapHijo => {

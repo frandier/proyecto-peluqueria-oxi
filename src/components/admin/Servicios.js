@@ -34,7 +34,7 @@ export default function Servicios() {
     }
 
     // Se encarga de almacenar la imagen
-    const types = ['image/png', 'image/jpeg'];
+    const types = ['image/png', 'image/jpeg', 'image/jpg'];
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -43,7 +43,7 @@ export default function Servicios() {
             setUrl(result);
             dispatch(removeError());
         } else {
-            dispatch(setError("Por favor seleccione una imagen con formato (png o jpg)"));
+            dispatch(setError("Por favor seleccione una imagen con formato (png, jpeg o jpg)"));
             setUrl('');
         }
     }
