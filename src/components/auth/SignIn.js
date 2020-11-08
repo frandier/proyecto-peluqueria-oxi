@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
 import { removeError, setError } from '../../actions/ui';
@@ -13,11 +13,15 @@ export default function SignIn() {
     const {msgError} = useSelector(state => state.ui);
 
     const [ formValues, handleInputChange ] = useForm({
-        email: 'spaike@gmail.com',
-        password: '123456'
+        email: '',
+        password: ''
     });
 
     const { email, password } = formValues;
+
+    useEffect(() => {
+        dispatch(removeError());
+    }, [dispatch])
 
     const handleLogin = (e) => {
         e.preventDefault();
@@ -74,7 +78,7 @@ export default function SignIn() {
                             <div className="form-group">
                                 <label htmlFor="contraseña">Contraseña</label>
                                 <input 
-                                    type="text" 
+                                    type="password" 
                                     className="form-control" 
                                     placeholder="contraseña" 
                                     name="password"

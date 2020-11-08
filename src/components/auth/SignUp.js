@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from '../../hooks/useForm';
 import validator from 'validator';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeError, setError } from '../../actions/ui';
-import { startRegisterWithEmailPasswordName } from '../../actions/auth';
+import { startGoogleLogin, startRegisterWithEmailPasswordName } from '../../actions/auth';
 import { Link } from 'react-router-dom';
 
 export default function SignUp() {
@@ -12,19 +12,27 @@ export default function SignUp() {
     const {msgError} = useSelector(state => state.ui);
 
     const [formValues, handleInputSubmit] = useForm({
-        name: 'Spike',
-        email: 'spaike@gmail.com',
-        password: '123456',
-        password2: '123456'
+        name: '',
+        email: '',
+        password: '',
+        password2: ''
     });
 
     const { name, email, password, password2 } = formValues;
+
+    useEffect(() => {
+        dispatch(removeError());
+    }, [dispatch])
 
     const handleRegister = (e) => {
         e.preventDefault();
         if (isFormValid()) {
             dispatch(startRegisterWithEmailPasswordName(email, password, name));
         }
+    }
+
+    const handleGoogleLogin = () => {
+        dispatch( startGoogleLogin() );
     }
 
     const isFormValid = () => {
@@ -108,6 +116,12 @@ export default function SignUp() {
                             <button type="submit" className="btn btn-primary btn-block">
                                 Registrarme
                             </button>
+                            <span
+                                className="btn btn-secondary btn-block"
+                                onClick={handleGoogleLogin}
+                            >
+                                <i className="fab fa-google"></i> Iniciar con Google
+                            </span>
                             <Link to="/auth/login">Ya tienes una cuenta</Link>
                         </form>
                     </div>

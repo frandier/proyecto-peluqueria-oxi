@@ -5,20 +5,22 @@ import {
     Redirect,
     Route
 } from 'react-router-dom'
-
 import { useDispatch } from 'react-redux'
+
+import { login } from '../actions/auth'
+import { firebase } from '../firebase/firebase-config'
+
+import { AuthRouter } from './AuthRouter'
+import UserRouter from './UserRouter'
+import AdminRouter from './AdminRouter'
+
+import { PrivateRoute } from './PrivateRoute'
+import { PublicRoute } from './PublicRoute'
+import { PrivateAdmin } from './PrivateAdmin'
 
 import Home from '../components/layout/Home'
 import Navbar from '../components/layout/Navbar'
 
-import { firebase } from '../firebase/firebase-config'
-import { AuthRouter } from './AuthRouter'
-import { PrivateRoute } from './PrivateRoute'
-
-import { login } from '../actions/auth'
-import UserRouter from './UserRouter'
-import { PublicRoute } from './PublicRoute'
-import AdminRouter from './AdminRouter'
 
 
 export const AppRouter = () => {
@@ -27,6 +29,7 @@ export const AppRouter = () => {
 
     const [checking, setChecking] = useState(true);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     useEffect(() => {
 
@@ -36,14 +39,16 @@ export const AppRouter = () => {
 
                 user.getIdTokenResult().then(idTokenResult => {
                     user.admin = idTokenResult.claims.admin;
-                    console.log(user);
+                    dispatch(login(user.uid, user.displayName, user.admin));
+                    if (user.admin) {
+                        setIsAdmin(true)
+                    }
                 });
-
-
-                dispatch(login(user.uid, user.displayName));
-                setIsLoggedIn(true);
+                
+                setIsLoggedIn(true); 
             } else {
                 setIsLoggedIn(false);
+                setIsAdmin(false);
             }
 
             setChecking(false);
@@ -71,11 +76,19 @@ export const AppRouter = () => {
                     path="/auth"
                     component={AuthRouter}
                     isAuthenticated={ isLoggedIn }
+                    isAdmin={isAdmin}
                 />
                 <PrivateRoute
+                    isAdmin={isAdmin}
                     isAuthenticated={ isLoggedIn }
                     path="/user"
                     component={UserRouter}
+                />
+                <PrivateAdmin 
+                    path="/admin"
+                    component={AdminRouter}
+                    isAdmin={isAdmin}
+                    isAuthenticated={ isLoggedIn }
                 />
                 <Route
                     path="/admin"

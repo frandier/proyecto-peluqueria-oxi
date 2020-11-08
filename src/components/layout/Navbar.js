@@ -9,7 +9,7 @@ export default function Navbar() {
 
     const dispatch = useDispatch();
 
-    const {name} =  useSelector(state => state.auth)
+    const {name, admin} =  useSelector(state => state.auth)
 
     const handleLogout = () => {
         dispatch(startLogout())
@@ -47,12 +47,22 @@ export default function Navbar() {
                                     <li className="nav-item">
                                         <span className="nav-link">{name}</span>
                                     </li>
-                                    <li className="nav-item">
-                                        <Link to="/user/agendar" className="nav-link">Agendar</Link>
-                                    </li>
-                                    {/* <li className="nav-item">
-                                        <Link to="/admin/citas" className="nav-link">Citas</Link>
-                                    </li> */}
+                                    {
+                                        !admin &&
+                                        (
+                                            <li className="nav-item">
+                                                <Link to="/user/agendar" className="nav-link">Agendar</Link>
+                                            </li>
+                                        )
+                                    }
+                                    {
+                                        admin &&
+                                        (
+                                            <li className="nav-item">
+                                                <Link to="/admin/citas" className="nav-link">Citas</Link>
+                                            </li>
+                                        )
+                                    }
                                     <li className="nav-item">
                                         <button 
                                             className="btn nav-link"

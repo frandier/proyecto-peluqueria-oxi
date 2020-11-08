@@ -8,7 +8,7 @@ export const startLoginEmailPassword = (email, password) => {
 
         firebase.auth().signInWithEmailAndPassword(email, password)
             .then(({ user }) => {
-                dispatch(login(user.uid, user.displayName));
+                dispatch(login(user.uid, user.displayName, null));
 
                 dispatch(finishLoading());
             })
@@ -31,7 +31,7 @@ export const startRegisterWithEmailPasswordName = (email, password, name) => {
                 await user.updateProfile({ displayName: name});
 
                 dispatch(
-                    login(user.uid, user.displayName)
+                    login(user.uid, user.displayName, null)
                 );
             })
             .catch(e => {
@@ -46,18 +46,19 @@ export const startGoogleLogin = () => {
         firebase.auth().signInWithPopup(googleAuthProvider)
             .then(({ user }) => {
                 dispatch(
-                    login(user.uid, user.displayName)
+                    login(user.uid, user.displayName, null)
                 )
             });
     }
 }
 
 
-export const login = (uid, displayName) => ({
+export const login = (uid, displayName, admin) => ({
     type: types.login,
     payload: {
         uid,
-        displayName
+        displayName,
+        admin
     }
 });
 

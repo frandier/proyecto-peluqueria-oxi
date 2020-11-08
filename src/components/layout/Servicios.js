@@ -16,7 +16,7 @@ export default function Servicios() {
                             <h5 className="card-title">{servicio.nombre}</h5>
                             <p className="card-text">Area: {servicio.area}</p>
                             <p className="card-text">Precio: {servicio.precio}</p>
-                            <Link to="/" className="btn btn-primary">Agendar</Link>
+                            <Link to="/user/agendar" className="btn btn-primary">Agendar</Link>
                         </div>
                     </div>
                 </div>
