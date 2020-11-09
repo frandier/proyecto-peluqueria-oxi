@@ -4,6 +4,7 @@ import { startDeleting, startLoadingCitas } from '../../actions/citas';
 import NavbarAdmin from './NavbarAdmin'
 
 import moment from 'moment'
+import 'moment/locale/es-mx'
 
 export default function Citas() {
 
@@ -21,6 +22,7 @@ export default function Citas() {
 
     const citasList =  citas.length ? (
         citas.map(cita => {
+            moment.locale('es');
             const fecha = moment(cita.fecha);
             return (
                 <tr key={cita.id}>

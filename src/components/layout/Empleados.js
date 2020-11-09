@@ -1,9 +1,17 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { startDeleting } from '../../actions/empleados';
 
 export default function Empleados() {
 
+    const dispatch = useDispatch();
+
     const {empleados} = useSelector(state => state.empleados);
+    const {admin} = useSelector(state => state.auth);
+
+    const deleteEmpleado = id => {
+        dispatch(startDeleting(id));
+    }
 
     const empleadosList = empleados.length ? (
         
@@ -15,6 +23,13 @@ export default function Empleados() {
                         <div className="card-body">
                             <h5 className="card-title">{empleado.nombre} {empleado.apellido}</h5>
                             <p className="card-text">Especialidad: {empleado.especialidad}</p>
+                            <p className="card-text">Descripción: {empleado.descripcion}</p>
+                            {
+                                admin &&
+                                (
+                                    <button className="btn btn-danger" onClick={() => {deleteEmpleado(empleado.id)}}>Eliminar</button>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

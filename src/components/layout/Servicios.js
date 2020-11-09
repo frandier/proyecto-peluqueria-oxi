@@ -1,10 +1,18 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { startDeleting } from '../../actions/servicios';
 
 export default function Servicios() {
 
+    const dispatch = useDispatch();
+
     const {servicios} = useSelector(state => state.servicios);
+    const {admin} = useSelector(state => state.auth);
+
+    const eliminarServicio = id => {
+        dispatch(startDeleting(id));
+    }
     
     const serviciosList = servicios.length ? (
         servicios.map(servicio => {
@@ -16,7 +24,18 @@ export default function Servicios() {
                             <h5 className="card-title">{servicio.nombre}</h5>
                             <p className="card-text">Area: {servicio.area}</p>
                             <p className="card-text">Precio: {servicio.precio}</p>
-                            <Link to="/user/agendar" className="btn btn-primary">Agendar</Link>
+                            {
+                                !admin &&
+                                (
+                                    <Link to="/user/agendar" className="btn btn-primary">Agendar</Link>
+                                )
+                            }
+                            {
+                                admin &&
+                                (
+                                    <button className="btn btn-danger" onClick={() => {eliminarServicio(servicio.id)}}>Eliminar</button>
+                                )
+                            }
                         </div>
                     </div>
                 </div>

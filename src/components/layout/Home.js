@@ -2,13 +2,15 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Servicios from './Servicios';
 import Empleados from './Empleados';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { startLoadingEmpleados } from '../../actions/empleados';
 import { startLoadingServicios } from '../../actions/servicios';
 
 export default function Home() {
 
     const dispatch = useDispatch();
+
+    const {admin} = useSelector(state => state.auth);
 
     useEffect(() => {
         dispatch(startLoadingEmpleados())
@@ -37,7 +39,12 @@ export default function Home() {
                         <hr/>
                         <p>Ofrecemos diferentes tipos de servicios de belleza desde servicios basicos como manicure y pedicure hasta servicios mas dedicados tales como uñas en acrilicio y semipermanentes.</p>
                         <p>Ademas de cortes de cabello unisex, tientes, mechas, depilaciones, alizado de cabellos, kertina, entre muchos otros mas, ademas de contar con profesionales capacitados para tarea y contar con todas las normas de salud.</p>
-                        <Link to="/user/agendar" className="btn btn-primary btn-lg">Agenda una Cita &raquo;</Link>
+                        {
+                            !admin &&
+                            (
+                                <Link to="/user/agendar" className="btn btn-primary btn-lg">Agenda una Cita &raquo;</Link>
+                            )
+                        }
                     </div>
                     <div className="col-md-4 mb-5">
                         <h2>Contactanos</h2>

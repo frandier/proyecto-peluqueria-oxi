@@ -18,10 +18,11 @@ export default function Empleados() {
     const [formValues, handleInputChange, reset] = useForm({
         name: "",
         lastname: "",
-        especialidad: ""
+        especialidad: "",
+        descripcion: ""
     });
 
-    const {name, lastname, especialidad} = formValues;
+    const {name, lastname, especialidad, descripcion} = formValues;
 
     useEffect(() => {
         dispatch(removeError());
@@ -34,7 +35,7 @@ export default function Empleados() {
     }
 
     // Se encarga de almacenar la imagen
-    const types = ['image/png', 'image/jpeg'];
+    const types = ['image/png', 'image/jpeg', 'image/jpg'];
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0];
@@ -43,7 +44,7 @@ export default function Empleados() {
             setUrl(result);
             dispatch(removeError());
         } else {
-            dispatch(setError("Por favor seleccione una imagen con formato (png o jpg)"));
+            dispatch(setError("Por favor seleccione una imagen con formato (png, jpeg o jpg)"));
             setUrl('');
         }
     }
@@ -51,7 +52,7 @@ export default function Empleados() {
     const handleEmpleado = (e) => {
         e.preventDefault();
         if (isFormValid()) {
-            dispatch(createNewEmpleado(name, lastname, especialidad, url));
+            dispatch(createNewEmpleado(name, lastname, especialidad, descripcion, url));
             reset();
         }
     }
@@ -65,6 +66,9 @@ export default function Empleados() {
             return false;
         } else if (validator.isEmpty(especialidad)) {
             dispatch(setError("Por favor seleccione un especialidad"));
+            return false;
+        } else if (validator.isEmpty(descripcion)) {
+            dispatch(setError("Por favor seleccione una descripcion"));
             return false;
         }
         dispatch(removeError());
@@ -110,6 +114,10 @@ export default function Empleados() {
                                         <option value="manicurista">Manicurista</option>
                                         <option value="integral">Integral</option>
                                     </select>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="descripcion-servicio">Descripcion</label>
+                                    <textarea className="form-control" value={descripcion} onChange={handleInputChange} name="descripcion"></textarea>
                                 </div>
                                 <input
                                     id="fileSelector"

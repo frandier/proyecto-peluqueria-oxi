@@ -23,8 +23,10 @@ export const types = {
     // Tipos para los empleados
     empleadosAddNew: '[Empleado] New empleado',
     empleadosLoad: '[Empleado] Load empleado',
+    empleadosDelete: '[Empleado] Delete empleado',
 
-    // Tipos para los empleados
+    // Tipos para los servicios
     serviciosAddNew: '[Servicios] New servicio',
     serviciosLoad: '[Servicios] Load servicio',
+    serviciosDelete: '[Servicios] Delete servicios',
 }

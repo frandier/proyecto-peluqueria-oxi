@@ -104,11 +104,11 @@ export default function Servicios() {
                                     <label htmlFor="area-servicio">Area del Servicio</label>
                                     <select className="form-control" value={area} onChange={handleInputChange} name="area">
                                         <option value="">Seleccione</option>
-                                        <option value="estilista">Manicure y Pedicure</option>
-                                        <option value="manicurista">Cortes de cabello</option>
-                                        <option value="integral">Mechas y Tintes</option>
-                                        <option value="integral">Tratamiento</option>
-                                        <option value="integral">Alisado</option>
+                                        <option value="manicure y pedicure">Manicure y Pedicure</option>
+                                        <option value="cortes de cabello">Cortes de cabello</option>
+                                        <option value="mechas y tintes">Mechas y Tintes</option>
+                                        <option value="tratamientos">Tratamientos</option>
+                                        <option value="alizado">Alisado</option>
                                     </select>
                                 </div>
                                 <div className="form-group">
