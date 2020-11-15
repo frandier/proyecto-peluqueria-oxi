@@ -4,7 +4,7 @@ import { db } from "../firebase/firebase-config";
 import { loadEmpleados } from "../helpers/loadEmpleados";
 import { types } from "../types/types";
 
-export const createNewEmpleado = (nombre, apellido, especialidad, descripcion, url) => {
+export const createNewEmpleado = (nombre, apellido, documento, especialidad, descripcion, url) => {
     return async(dispatch) => {
 
         const imgUrl = url[0];
@@ -12,6 +12,7 @@ export const createNewEmpleado = (nombre, apellido, especialidad, descripcion, u
         const newEmpleado = {
             nombre, 
             apellido, 
+            documento,
             especialidad,
             descripcion,
             imgUrl

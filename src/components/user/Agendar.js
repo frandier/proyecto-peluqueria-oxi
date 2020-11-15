@@ -1,13 +1,16 @@
+import Swal from "sweetalert2";
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
+import moment from 'moment';
+
 import { createNewCita } from '../../actions/citas';
 import { startLoadingEmpleados } from '../../actions/empleados';
 import { startLoadingServicios } from '../../actions/servicios';
 import { removeError, setError } from '../../actions/ui';
 import { useForm } from '../../hooks/useForm';
 import { consultarFecha, consultarEmpleado } from "../../helpers/citaDisponible";
-import Swal from "sweetalert2";
+
 
 export default function Agendar() {
 
@@ -49,6 +52,12 @@ export default function Agendar() {
     }
 
     const isFormValid = () => {
+        const hora = moment(fecha).format('h:mma');
+
+        var inicio = moment(hora, 'h:mma');
+        var hApertura = moment('8:00am', 'h:mma');
+        var hCierre = moment('9:00pm', 'h:mma');
+
         if (validator.isEmpty(servicio)) {
             dispatch(setError("Por favor elige un servicio"));
             return false;
@@ -58,9 +67,14 @@ export default function Agendar() {
         } else if (validator.isEmpty(fecha)) {
             dispatch(setError("Por favor elige una fecha"));
             return false;
-        }
-        else if (validator.isBefore(fecha)) {
+        } else if (validator.isBefore(fecha)) {
             dispatch(setError("No puedes elegir una fecha que ya paso"));
+            return false;
+        } else if (inicio.isSameOrAfter(hCierre)) {
+            dispatch(setError("La peluqueria esta cerrada despues de las 9:00 pm"));
+            return false;
+        } else if (inicio.isBefore(hApertura)) {
+            dispatch(setError("La peluqueria esta abierta apartir de las 8:00 am"));
             return false;
         }
 
@@ -110,16 +124,6 @@ export default function Agendar() {
                             <button type="submit" className="btn btn-primary btn-block">
                                 Agendar
                             </button>
-                            {/* <div className="form-group col-md-6">
-                                <button type="submit" className="btn btn-primary btn-block">
-                                    Agendar
-                                </button>
-                            </div>
-                            <div className="form-group col-md-6">
-                                <button type="reset" className="btn btn-danger btn-block">
-                                    Cancelar
-                                </button>
-                            </div> */}
                         </form>
                     </div>
                 </div>

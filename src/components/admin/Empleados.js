@@ -1,9 +1,11 @@
+import Swal from "sweetalert2";
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import validator from 'validator';
 import { createNewEmpleado } from '../../actions/empleados';
 import { removeError, setError } from '../../actions/ui';
 import { uploadEmpleadoImg } from '../../helpers/uploadEmpleadoImg';
+import {validarDocumento} from '../../helpers/validarEmpleado';
 import { useForm } from '../../hooks/useForm'
 import NavbarAdmin from './NavbarAdmin'
 
@@ -19,10 +21,11 @@ export default function Empleados() {
         name: "",
         lastname: "",
         especialidad: "",
-        descripcion: ""
+        descripcion: "",
+        documento: ""
     });
 
-    const {name, lastname, especialidad, descripcion} = formValues;
+    const {name, lastname, especialidad, descripcion, documento} = formValues;
 
     useEffect(() => {
         dispatch(removeError());
@@ -49,17 +52,26 @@ export default function Empleados() {
         }
     }
 
-    const handleEmpleado = (e) => {
+    const handleEmpleado = async (e) => {
         e.preventDefault();
         if (isFormValid()) {
-            dispatch(createNewEmpleado(name, lastname, especialidad, descripcion, url));
-            reset();
+            const existeEmpleado = await validarDocumento(documento);
+
+            if (existeEmpleado) {
+                Swal.fire('Empleado duplicado!', 'Ya existe un empleado con este numero de documento', "error");
+            } else {
+                dispatch(createNewEmpleado(name, lastname, documento, especialidad, descripcion, url));
+                reset();
+            }
         }
     }
 
     const isFormValid = () => {
         if (validator.isEmpty(name)) {
             dispatch(setError("Por favor ingrese un nombre"));
+            return false;
+        } else if (validator.isEmpty(documento)) {
+            dispatch(setError("Por favor ingrese un numero de documento"));
             return false;
         } else if (validator.isEmpty(lastname)) {
             dispatch(setError("Por favor ingrese un apellido"));
@@ -69,6 +81,9 @@ export default function Empleados() {
             return false;
         } else if (validator.isEmpty(descripcion)) {
             dispatch(setError("Por favor seleccione una descripcion"));
+            return false;
+        } else if (documento.length < 10) {
+            dispatch(setError("Por favor ingrese un numero de documento valido"));
             return false;
         }
         dispatch(removeError());
@@ -105,6 +120,10 @@ export default function Empleados() {
                                 <div className="form-group">
                                     <label htmlFor="apellido-empleado">Apellido del Empleado</label>
                                     <input type="text" name="lastname" className="form-control" value={lastname} onChange={handleInputChange} autoComplete="off"/> 
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="documento-empleado">Numero de documento</label>
+                                    <input type="number" name="documento" className="form-control" value={documento} onChange={handleInputChange} autoComplete="off"/> 
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="nombre-servicio">Especialidad</label>

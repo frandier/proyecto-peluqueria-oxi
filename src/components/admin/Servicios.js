@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -5,6 +6,7 @@ import validator from 'validator';
 import { createNewServicio } from '../../actions/servicios';
 import { removeError, setError } from '../../actions/ui';
 import { uploadImage } from '../../helpers/uploadImage';
+import {validarServicio} from '../../helpers/validarServicio';
 import { useForm } from '../../hooks/useForm'
 import NavbarAdmin from './NavbarAdmin'
 
@@ -49,12 +51,18 @@ export default function Servicios() {
     }
 
     // Eviar el formulario y guardar el servicio
-    const handleServicio = (e) => {
+    const handleServicio = async (e) => {
         e.preventDefault();
         if (isFormValid()) {
-            dispatch(createNewServicio(name, area, precio, url));
-            setUrl('');
-            reset();
+            const existeServicio = await validarServicio(name);
+
+            if (existeServicio) {
+                Swal.fire('Servicio duplicado!', 'Ya existe un servicio con este nombre', "error");
+            } else {
+                dispatch(createNewServicio(name, area, precio, url));
+                setUrl('');
+                reset();
+            }
         }
     }
 
